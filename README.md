@@ -1,4 +1,4 @@
-# ELK-wazuh-ecs
+# wazuh-ecs
 
 This project described the parsing of wazuh[HIDS] alert logs for elasticsearch with Elastic common schema using filebeat.
 
