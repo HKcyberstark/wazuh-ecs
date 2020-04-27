@@ -1,0 +1,424 @@
+{
+  "description": "wazuh-ecs-mapping",
+  "processors": [
+    {
+      "remove": {
+        "field": "agent.type",
+        "ignore_failure" : true
+      }
+    },
+    {
+      "remove": {
+        "field": "agent.id",
+        "ignore_failure" : true
+      }
+    },
+    {
+      "remove": {
+        "field": "agent.version",
+        "ignore_failure" : true
+      }
+    },
+    {
+      "remove": {
+        "field": "agent.ephemeral_id",
+        "ignore_failure" : true
+      }
+    },
+    {
+      "remove": {
+        "field": "agent.hostname",
+        "ignore_failure" : true
+      }
+    },
+    {
+      "set": {
+        "field": "event.module",
+        "value": "wazuh"
+      }
+    },
+    {
+      "set": {
+        "field": "event.kind",
+        "value": "alert"
+      }
+    },
+    {
+      "set": {
+        "field": "event.category",
+        "value": "intrustion_detection"
+      }
+    },
+    {
+      "set": {
+        "field": "agent.ip",
+        "value": "{{wazuh.agent.ip}}",
+        "if": "ctx.wazuh?.agent?.ip != null"
+      }
+    },
+    {
+      "set": {
+        "field": "agent.name",
+        "value": "{{wazuh.agent.name}}",
+        "if": "ctx.wazuh?.agent?.name != null"
+      }
+    },
+    {
+      "set": {
+        "field": "error.code",
+        "value": "{{wazuh.data.aws.errorCode}}",
+        "if": "ctx.wazuh?.data?.aws?.errorCode != null"
+      }
+    },
+    {
+      "set": {
+        "field": "error.message",
+        "value": "{{wazuh.data.aws.errorMessage}}",
+        "if": "ctx.wazuh?.data?.aws?.errorMessage != null"
+      }
+    },
+    {
+      "set": {
+        "field": "cloud.account.id",
+        "value": "{{wazuh.data.aws.id}}",
+        "if": "ctx.wazuh?.data?.aws?.id != null"
+      }
+    },
+    {
+      "set": {
+        "field": "container.runtime",
+        "value": "{{wazuh.data.docker.Actor.Attributes.container}}",
+        "if": "ctx.wazuh?.data?.docker?.Actor?.Attributes?.container != null"
+      }
+    },
+    {
+      "set": {
+        "field": "container.image.name",
+        "value": "{{wazuh.data.docker.Actor.Attributes.image}}",
+        "if": "ctx.wazuh?.data?.docker?.Actor?.Attributes?.image != null"
+      }
+    },
+    {
+      "set": {
+        "field": "container.name",
+        "value": "{{wazuh.data.docker.Actor.Attributes.name}}",
+        "if": "ctx.wazuh?.data?.docker?.Actor?.Attributes?.name != null"
+      }
+    },
+    {
+      "set": {
+        "field": "container.labels",
+        "value": "{{wazuh.data.docker.Actor.ID}}",
+        "if": "ctx.wazuh?.data?.docker?.Actor?.ID != null"
+      }
+    },
+    {
+      "set": {
+        "field": "container.id",
+        "value": "{{wazuh.data.docker.id}}",
+        "if": "ctx.wazuh?.data?.docker?.id != null"
+      }
+    },
+    {
+      "set": {
+        "field": "destination.ip",
+        "value": "{{wazuh.data.dstip}}",
+        "if": "ctx.wazuh?.data?.dstip != null"
+      }
+    },
+    {
+      "set": {
+        "field": "destination.port",
+        "value": "{{wazuh.data.dstport}}",
+        "if": "ctx.wazuh?.data?.dstport != null"
+      }
+    },
+    {
+      "set": {
+        "field": "destination.user.name",
+        "value": "{{wazuh.data.dstuser}}",
+        "if": "ctx.wazuh?.data?.dstuser != null"
+      }
+    },
+    {
+      "set": {
+        "field": "host.name",
+        "value": "{{wazuh.data.os.hostname}}",
+        "if": "ctx.wazuh?.data?.os?.hostname != null"
+      }
+    },
+    {
+      "set": {
+        "field": "process.arg",
+        "value": "{{wazuh.data.process.args}}",
+        "if": "ctx.wazuh?.data?.process?.args != null"
+      }
+    },
+    {
+      "set": {
+        "field": "process.name",
+        "value": "{{wazuh.data.process.name}}",
+        "if": "ctx.wazuh?.data?.process?.name != null"
+      }
+    },
+    {
+      "set": {
+        "field": "source.ip",
+        "value": "{{wazuh.data.src_ip}}",
+        "if": "ctx.wazuh?.data?.src_ip != null"
+      }
+    },
+    {
+      "set": {
+        "field": "source.port",
+        "value": "{{wazuh.data.src_port}}",
+        "if": "ctx.wazuh?.data?.src_port != null"
+      }
+    },
+    {
+      "set": {
+        "field": "source.ip",
+        "value": "{{wazuh.data.srcip}}",
+        "if": "ctx.wazuh?.data?.srcip != null"
+      }
+    },
+    {
+      "set": {
+        "field": "source.port",
+        "value": "{{wazuh.data.srcport}}",
+        "if": "ctx.wazuh?.data?.srcport != null"
+      }
+    },
+    {
+      "set": {
+        "field": "source.user.name",
+        "value": "{{wazuh.data.srcuser}}",
+        "if": "ctx.wazuh?.data?.srcuser != null"
+      }
+    },
+    {
+      "set": {
+        "field": "url.full",
+        "value": "{{wazuh.data.url}}",
+        "if": "ctx.wazuh?.data?.url != null"
+      }
+    },
+    {
+      "set": {
+        "field": "vulnerability.enumeration",
+        "value": "{{wazuh.data.vulnerability.advisories}}",
+        "if": "ctx.wazuh?.data?.vulnerability?.advisories != null"
+      }
+    },
+    {
+      "set": {
+        "field": "vulnerability.id",
+        "value": "{{wazuh.data.vulnerability.cve}}",
+        "if": "ctx.wazuh?.data?.vulnerability?.cve != null"
+      }
+    },
+    {
+      "set": {
+        "field": "vulnerability.score.base",
+        "value": "{{wazuh.data.vulnerability.cvss.cvss2.base_score}}",
+        "if": "ctx.wazuh?.data?.vulnerability?.cvss?.cvss2?.base_score != null"
+      }
+    },
+    {
+      "set": {
+        "field": "vulnerability.enumeration",
+        "value": "{{wazuh.data.vulnerability.cwe_reference}}",
+        "if": "ctx.wazuh?.data?.vulnerability?.cwe_reference != null"
+      }
+    },
+    {
+      "set": {
+        "field": "vulnerability.score.version",
+        "value": "{{wazuh.data.vulnerability.package.version}}",
+        "if": "ctx.wazuh?.data?.vulnerability?.package?.version != null"
+      }
+    },
+    {
+      "set": {
+        "field": "vulnerability.reference",
+        "value": "{{wazuh.data.vulnerability.reference}}",
+        "if": "ctx.wazuh?.data?.vulnerability?.reference != null"
+      }
+    },
+    {
+      "set": {
+        "field": "vulnerability.severity",
+        "value": "{{wazuh.data.vulnerability.severity}}",
+        "if": "ctx.wazuh?.data?.vulnerability?.severity != null"
+      }
+    },
+    {
+      "set": {
+        "field": "vulnerability.category",
+        "value": "{{wazuh.data.vulnerability.title}}",
+        "if": "ctx.wazuh?.data?.vulnerability?.title != null"
+      }
+    },
+    {
+      "set": {
+        "field": "process.id",
+        "value": "{{wazuh.data.win.eventdata.processId}}",
+        "if": "ctx.wazuh?.data?.win?.eventdata?.processId != null"
+      }
+    },
+    {
+      "set": {
+        "field": "process.name",
+        "value": "{{wazuh.data.win.eventdata.processName}}",
+        "if": "ctx.wazuh?.data?.win?.eventdata?.processName != null"
+      }
+    },
+    {
+      "set": {
+        "field": "event.code",
+        "value": "{{wazuh.data.win.system.eventID}}",
+        "if": "ctx.wazuh?.data?.win?.system?.eventID != null"
+      }
+    },
+    {
+      "set": {
+        "field": "event.action",
+        "value": "{{wazuh.data.win.system.message}}",
+        "if": "ctx.wazuh?.data?.win?.system?.message != null"
+      }
+    },
+    {
+      "set": {
+        "field": "process.pid",
+        "value": "{{wazuh.data.win.system.processID}}",
+        "if": "ctx.wazuh?.data?.win?.system?.processID != null"
+      }
+    },
+    {
+      "set": {
+        "field": "event.provider",
+        "value": "{{wazuh.data.win.system.providerName}}",
+        "if": "ctx.wazuh?.data?.win?.system?.providerName != null"
+      }
+    },
+    {
+      "set": {
+        "field": "log.original",
+        "value": "{{wazuh.full_log}}",
+        "if": "ctx.wazuh?.full_log != null"
+      }
+    },
+    {
+      "set": {
+        "field": "manager.name",
+        "value": "{{wazuh.manager.name}}",
+        "if": "ctx.wazuh?.manager?.name != null"
+      }
+    },
+    {
+      "set": {
+        "field": "rule.description",
+        "value": "{{wazuh.rule.description}}",
+        "if": "ctx.wazuh?.rule?.description != null"
+      }
+    },
+    {
+      "set": {
+        "field": "rule.ruleset",
+        "value": "{{wazuh.rule.groups}}",
+        "if": "ctx.wazuh?.rule?.groups != null"
+      }
+    },
+    {
+      "set": {
+        "field": "rule.id",
+        "value": "{{wazuh.rule.id}}",
+        "if": "ctx.wazuh?.rule?.id != null"
+      }
+    },
+    {
+      "set": {
+        "field": "file.owner",
+        "value": "{{wazuh.syscheck.audit.login_user.name}}",
+        "if": "ctx.wazuh?.syscheck?.audit?.login_user?.name != null"
+      }
+    },
+    {
+      "set": {
+        "field": "process.id",
+        "value": "{{wazuh.syscheck.audit.process.id}}",
+        "if": "ctx.wazuh?.syscheck?.audit?.process?.id != null"
+      }
+    },
+    {
+      "set": {
+        "field": "process.name",
+        "value": "{{wazuh.syscheck.audit.process.name}}",
+        "if": "ctx.wazuh?.syscheck?.audit?.process?.name != null"
+      }
+    },
+    {
+      "set": {
+        "field": "process.parent.ppid",
+        "value": "{{wazuh.syscheck.audit.process.ppid}}",
+        "if": "ctx.wazuh?.syscheck?.audit?.process?.ppid != null"
+      }
+    },
+    {
+      "set": {
+        "field": "file.gid",
+        "value": "{{wazuh.syscheck.gid_after}}",
+        "if": "ctx.wazuh?.syscheck?.gid_after != null"
+      }
+    },
+    {
+      "set": {
+        "field": "file.hash.md5",
+        "value": "{{wazuh.syscheck.md5_after}}",
+        "if": "ctx.wazuh?.syscheck?.md5_after != null"
+      }
+    },
+    {
+      "set": {
+        "field": "file.mtime",
+        "value": "{{wazuh.syscheck.mtime_before}}",
+        "if": "ctx.wazuh?.syscheck?.mtime_before != null"
+      }
+    },
+    {
+      "set": {
+        "field": "file.ctime",
+        "value": "{{wazuh.syscheck.mtime_after}}",
+        "if": "ctx.wazuh?.syscheck?.mtime_after != null"
+      }
+    },
+    {
+      "set": {
+        "field": "file.path",
+        "value": "{{wazuh.syscheck.path}}",
+        "if": "ctx.wazuh?.syscheck?.path != null"
+      }
+    },
+    {
+      "set": {
+        "field": "file.hash.sha1",
+        "value": "{{wazuh.syscheck.sha1_after}}",
+        "if": "ctx.wazuh?.syscheck?.sha1_after != null"
+      }
+    },
+    {
+      "set": {
+        "field": "file.hash.sha256",
+        "value": "{{wazuh.syscheck.sha256_after}}",
+        "if": "ctx.wazuh?.syscheck?.sha256_after != null"
+      }
+    },
+    {
+      "set": {
+        "field": "file.size",
+        "value": "{{wazuh.syscheck.size_afrer}}",
+        "if": "ctx.wazuh?.syscheck?.size_afrer != null"
+      }
+    }
+  ]
+}
