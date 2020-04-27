@@ -4,9 +4,7 @@ This project described the parsing of wazuh[HIDS] alert logs for elasticsearch w
 
 Goal of the project is to parse wazuh alerts logs directly from wazuh manager as simple as possible with Elastic common schema.
 
-
-<img width="342" alt="Screenshot 2020-04-27 at 11 31 23 AM" src="https://user-images.githubusercontent.com/40884455/80338781-d50ce080-887a-11ea-8f7f-917f39caf051.png">
-
+<img width="523" alt="Screenshot 2020-04-27 at 11 41 36 AM" src="https://user-images.githubusercontent.com/40884455/80339388-27023600-887c-11ea-9f50-7f0639f1832d.png">
 
 **Warning** : The parsing and conversion of alerts data with Elastic common schema is experimental. As much as possible ECS fields are parsed and added as initial release. 
 
