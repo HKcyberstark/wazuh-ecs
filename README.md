@@ -120,4 +120,4 @@ service filebeat start
 - [ ] MITRE ATT&CK mapping for wazuh alerts
 
 ## Contribution
-Continuous enhancement and improvement with ECS parsing latest version of elasticstack is the development goal of the project. Help with your expertise to enhance the project.
+Continuous enhancement and improvement with ECS parsing with latest version of elasticstack is the development goal of the project. Help with your expertise to enhance the project.
