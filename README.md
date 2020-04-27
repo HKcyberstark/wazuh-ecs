@@ -11,15 +11,12 @@ Goal of the project is to parse wazuh alerts logs directly from wazuh manager as
 ## Assumption
 The project assumes that wazuh manager and elasticsearch are already installed. [Wazuh](https://documentation.wazuh.com/3.7/installation-guide/index.html) official Installation guide and [Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html) official guide to be used for more details. 
 
-## Data parsing
-Wazuh alerts data which in JSON format are to be read and decoded using structured and logging and multiline options with filebeat. These configuration options collect encoded JSON objects as a string spanning multiple lines.
+The quickest way to get elasticsearch up and running is by using [Elastic cloud](https://www.elastic.co/elasticsearch/service) - however feel free to deploy elasticsearch whereever you like.
 
-```
-multiline.pattern: '^{'
-multiline.negate: true
-multiline.match: after
-```
-Filebeat processors are used in decoding the JSON message into structured JSON objects and uniform naming convention with prefix as “wazuh” will be used across all the data parsed with wazuh alerts. 
+## Data parsing
+Wazuh alerts which in JSON format are to be read and decoded using structured logging with filebeat.
+
+Filebeat processors are used in decoding the JSON message into structured JSON objects and uniform naming convention with prefix as “wazuh” and it will be used across all the data parsed with wazuh alerts. 
 
 ```
 Processor:
@@ -29,7 +26,7 @@ Processor:
     - drop_fields:
         fields: ['message']
 ```
-FIlebeat is configured with a configuration file that decodes multiline json alerts from wazuh and uses processors to decode into common naming convention
+Filebeat is configured with a configuration file that decodes json alerts from wazuh and uses processors to decode into common naming convention. Ingest pipeline is used for ECS parsing.   
 
 ## ECS parsing
 straightforward mapping of the original fields in the wazuh alert data to ECS related fields are  created with [ecs-mapper](https://github.com/elastic/ecs-mapper). ecs-mapper  is a tool to generate starter pipelines to help you get started quickly in mapping your event sources to ECS.
@@ -37,9 +34,10 @@ straightforward mapping of the original fields in the wazuh alert data to ECS re
 wazuh-ECS-mapping template sheet is maintained for mapping of alert data into ECS and used with ecs-mapper tool in generating pipelines. 
 
 ECS mapper turns a field mapping CSV to roughly equivalent pipelines for:
-Beats
-Elasticsearch
-Logstash
+- Beats
+- Elasticsearch
+- Logstash
+
 We would be using Elasticsearch ingest processor pipelines in the filebeat configuration for simple and less resource intensive field parsing. 
 
 Additional fields added with ECS parsing on wazuh alerts are as below
@@ -124,4 +122,4 @@ service filebeat start
 - [ ] MITRE ATT&CK mapping for wazuh alerts
 
 ## Contribution
-Continuous enhancement and improvement with ECS parsing with latest version of elasticstack is the development goal of the project. Help with your expertise to enhance the project.
+Continuous enhancement and improvement with ECS parsing with the latest version of elasticstack is the development goal of the project. Help with your expertise to enhance the project.
