@@ -2,14 +2,12 @@
 
 This project described the parsing of wazuh[HIDS] alert logs for elasticsearch with Elastic common schema using filebeat.
 
-## Goal
 Goal of the project is to parse wazuh alerts logs directly from wazuh manager as simple as possible with Elastic common schema.
 
-## Warning
-The parsing and conversion of alerts data with Elastic common schema is experimental. As much as possible ECS fields are parsed and added as initial release. 
+**Warning** : The parsing and conversion of alerts data with Elastic common schema is experimental. As much as possible ECS fields are parsed and added as initial release. 
 
 ## Assumption
-The project assumes that wazuh manager and elasticsearch are already installed.[Wazuh](https://documentation.wazuh.com/3.7/installation-guide/index.html) official Installation guide and [Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html) official guide to be used for more details. 
+The project assumes that wazuh manager and elasticsearch are already installed. [Wazuh](https://documentation.wazuh.com/3.7/installation-guide/index.html) official Installation guide and [Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html) official guide to be used for more details. 
 
 ## Data parsing
 Wazuh alerts data which in JSON format are to be read and decoded using structured and logging and multiline options with filebeat. These configuration options collect encoded JSON objects as a string spanning multiple lines.
@@ -61,7 +59,7 @@ Filebeat to be installed in the wazuh management server.  Repositories for YUM a
 Define the pipeline in Elasticsearch that converts and adds ECS data to wazuh alerts.
 
 ```
-# curl -so /etc/filebeat/wazuh-ecs-pipeline.json https://raw.githubusercontent.com/wazuh/wazuh/v3.12.2/extensions/elasticsearch/7.x/wazuh-template.json
+# curl -so /etc/filebeat/wazuh-ecs-pipeline.json https://raw.githubusercontent.com/HKcyberstark/wazuh-ecs/master/wazuh-ecs-pipeline.json
 # chmod go+r /etc/filebeat/wazuh-ecs-pipeline.json
 ```
 
@@ -76,7 +74,7 @@ Define the pipeline in Elasticsearch that converts and adds ECS data to wazuh al
 3. Filebeat configuration
 
 ```
-# curl -so /etc/filebeat/filebeat.yml https://raw.githubusercontent.com/wazuh/wazuh/v3.12.2/extensions/filebeat/7.x/filebeat.yml
+# curl -so /etc/filebeat/filebeat.yml https://raw.githubusercontent.com/HKcyberstark/wazuh-ecs/master/filebeat.yml
 # chmod go+r /etc/filebeat/filebeat.yml
 ```
 Edit the file /etc/filebeat/filebeat.yml and replace YOUR_ELASTIC_SERVER_IP with the IP address or the hostname of the Elasticsearch server. For example:
