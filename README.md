@@ -78,8 +78,11 @@ Define the pipeline in Elasticsearch that converts and adds ECS data to wazuh al
 # chmod go+r /etc/filebeat/filebeat.yml
 ```
 Edit the file /etc/filebeat/filebeat.yml and replace YOUR_ELASTIC_SERVER_IP with the IP address or the hostname of the Elasticsearch server. For example:
+
+```
 Output.elasticsearch
     host: [“https://YOUR_ELASTIC_SERVER_IP:9200”]
+```
 
 4. Run filebeat
 
