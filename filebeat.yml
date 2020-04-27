@@ -18,9 +18,9 @@ filebeat.inputs:
   ### Multiline options
 
   # The regexp Pattern that has to be matched.
-  multiline.pattern: '^\{'
-  multiline.negate: true
-  multiline.match: after
+  #multiline.pattern: '^\{'
+  #multiline.negate: true
+  #multiline.match: after
 
 #============================= Filebeat modules ===============================
 
