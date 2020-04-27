@@ -108,3 +108,12 @@ service filebeat start
 | rule.*       | wazuh rule details mapped to ECS                               |
 | wazuh.*      | original data fields from wazuh alert                          |
 
+## Next steps
+- [x] Initial ECS parsing for wazuh alerts
+- [x] wazuh alerts to be populated in Elastic SIEM
+- [ ] Pre built ECS dashboards for wazuh
+- [ ] Elastic SIEM rules for wazuh alerts
+- [ ] MITRE ATT&CK mapping for wazuh alerts
+
+## Contribution
+Continuous enhancement and improvement with ECS parsing latest version of elasticstack is the development goal of the project. Help with your expertise to enhance the project.
