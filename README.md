@@ -3,13 +3,13 @@
 This project described the parsing of wazuh[HIDS] alert logs for elasticsearch with Elastic common schema using filebeat.
 
 ## Goal
-Goal of the project is to parse wazuh alerts logs directly from wazuh manager as simple as possible with Elastic common schema for the alert data to be used with Elastic features including Elastic SIEM. 
+Goal of the project is to parse wazuh alerts logs directly from wazuh manager as simple as possible with Elastic common schema.
 
 ## Warning
 The parsing and conversion of alerts data with Elastic common schema is experimental. As much as possible ECS fields are parsed and added as initial release. 
 
 ## Assumption
-The project assumes that [wazuh manager](https://documentation.wazuh.com/3.7/installation-guide/index.html), [elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html) are already installed. Wazuh official Installation guide and Elasticsearch official guide to be used for more details. [Filebeat](https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-installation.html) to be installed in the wazuh management server. 
+The project assumes that wazuh manager and elasticsearch are already installed.[Wazuh](https://documentation.wazuh.com/3.7/installation-guide/index.html) official Installation guide and [Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html) official guide to be used for more details. 
 
 ## Data parsing
 Wazuh alerts data which in JSON format are to be read and decoded using structured and logging and multiline options with filebeat. These configuration options collect encoded JSON objects as a string spanning multiple lines.
@@ -29,14 +29,73 @@ Processor:
     - drop_fields:
         fields: ['message']
 ```
+FIlebeat is configured with a configuration file that decodes multiline json alerts from wazuh and uses processors to decode into common naming convention
 
 ## ECS parsing
-straightforward mapping of the original fields in the wazuh alert data to ECS using ecs-mapper.
-[ecs-mapper](https://github.com/elastic/ecs-mapper) is a tool to generate starter pipelines of each flavor, to help you get started quickly in mapping your event sources to ECS.
+straightforward mapping of the original fields in the wazuh alert data to ECS related fields are  created with [ecs-mapper](https://github.com/elastic/ecs-mapper). ecs-mapper  is a tool to generate starter pipelines to help you get started quickly in mapping your event sources to ECS.
 
 wazuh-ECS-mapping template sheet is maintained for mapping of alert data into ECS and used with ecs-mapper tool in generating pipelines. 
 
-FIlebeat is configured with a configuration file that decodes multiline json alerts from wazuh and uses processors to decode and map the alert data into ECS and common naming convention. 
+ECS mapper turns a field mapping CSV to roughly equivalent pipelines for:
+Beats
+Elasticsearch
+Logstash
+We would be using Elasticsearch ingest processor pipelines in the filebeat configuration for simple and less resource intensive field parsing. 
+
+Additional fields added with ECS parsing on wazuh alerts are as below
+
+| ECS field      | Field value         |
+|----------------|---------------------|
+| event.module   | wazuh               |
+| event.kind     | alert               |
+| event.category | intrusion_detection |
+
+
+## Installation and Configuration
+1. Install filebeat
+
+Filebeat to be installed in the wazuh management server.  Repositories for YUM and APT is available with [official documentation](https://www.elastic.co/guide/en/beats/filebeat/current/setup-repositories.html)
+
+2. Define the Pipeline
+
+Define the pipeline in Elasticsearch that converts and adds ECS data to wazuh alerts.
+
+```
+# curl -so /etc/filebeat/wazuh-ecs-pipeline.json https://raw.githubusercontent.com/wazuh/wazuh/v3.12.2/extensions/elasticsearch/7.x/wazuh-template.json
+# chmod go+r /etc/filebeat/wazuh-ecs-pipeline.json
+```
+
+```
+# cd /etc/filebeat
+```
+<<YOUR_ELASTIC_SERVER_IP>> is the IP address of your elasticsearch to be used in the below command.
+```
+# curl -H 'Content-Type: application/json' -XPUT 'https://<<YOUR_ELASTIC_SERVER_IP>>/_ingest/pipeline/wazuh-ecs-pipeline-pipeline' -d@wazuh-ecs-pipeline.json
+```
+
+3. Filebeat configuration
+
+```
+# curl -so /etc/filebeat/filebeat.yml https://raw.githubusercontent.com/wazuh/wazuh/v3.12.2/extensions/filebeat/7.x/filebeat.yml
+# chmod go+r /etc/filebeat/filebeat.yml
+```
+Edit the file /etc/filebeat/filebeat.yml and replace YOUR_ELASTIC_SERVER_IP with the IP address or the hostname of the Elasticsearch server. For example:
+Output.elasticsearch
+    host: [“https://YOUR_ELASTIC_SERVER_IP:9200”]
+
+4. Run filebeat
+
+For Systemd:
+```
+systemctl daemon-reload
+systemctl enable filebeat.service
+systemctl start filebeat.service
+```
+For SysV Init:
+```
+chkconfig --add filebeat
+service filebeat start
+```
 
 ## Field descriptions
 
@@ -47,5 +106,4 @@ FIlebeat is configured with a configuration file that decodes multiline json ale
 | event.*      | events related to wazuh alerts mapped with ECS                 |
 | rule.*       | wazuh rule details mapped to ECS                               |
 | wazuh.*      | original data fields from wazuh alert                          |
-
 
