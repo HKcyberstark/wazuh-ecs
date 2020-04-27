@@ -110,6 +110,12 @@ service filebeat start
 | rule.*       | wazuh rule details mapped to ECS                               |
 | wazuh.*      | original data fields from wazuh alert                          |
 
+## Screenshots
+
+<img width="1315" alt="Screenshot 2020-04-27 at 12 05 28 PM" src="https://user-images.githubusercontent.com/40884455/80341409-020fc200-8880-11ea-8b08-774ad7436055.png">
+
+<img width="1611" alt="Screenshot 2020-04-27 at 12 08 39 PM" src="https://user-images.githubusercontent.com/40884455/80341378-f3c1a600-887f-11ea-8e70-345444c870ed.png">
+
 ## Next steps
 - [x] Initial ECS parsing for wazuh alerts
 - [x] wazuh alerts to be populated in Elastic SIEM
