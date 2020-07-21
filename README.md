@@ -68,7 +68,7 @@ Define the pipeline in Elasticsearch that converts and adds ECS data to wazuh al
 ```
 <<YOUR_ELASTIC_SERVER_IP>> is the IP address of your elasticsearch to be used in the below command.
 ```
-# curl -H 'Content-Type: application/json' -XPUT 'https://<<YOUR_ELASTIC_SERVER_IP>>/_ingest/pipeline/wazuh-ecs-pipeline-pipeline' -d@wazuh-ecs-pipeline.json
+# curl -H 'Content-Type: application/json' -XPUT 'https://<<YOUR_ELASTIC_SERVER_IP>>/_ingest/pipeline/wazuh-ecs-pipeline' -d@wazuh-ecs-pipeline.json
 ```
 
 3. Filebeat configuration
